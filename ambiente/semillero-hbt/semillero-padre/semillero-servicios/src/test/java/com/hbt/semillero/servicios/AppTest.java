@@ -30,14 +30,18 @@ public class AppTest {
 	
 	@Test
 	public void segundaPrueba(){
+		//---- test resultado correcto de invertir cadena ---
 		String resultadoEsperado = "aloH";
 		String resultado = invertirCadena("Hola");
 		Assert.assertEquals(resultado, resultadoEsperado);
+		//---- test resultado incorrecto de invertir cadena ---
 		resultadoEsperado = "alHo";
 		Assert.assertNotEquals(resultado, resultadoEsperado);
+		//---- test resultado correcto de invertir cadena vacia ---
 		resultado  = invertirCadena("");
 		resultadoEsperado = "";
 		Assert.assertEquals(resultado, resultadoEsperado);
+		//---- test resultado incorrecto de invertir cadena vacia ---
 		resultado  = invertirCadena("");
 		resultadoEsperado =  " ";
 		Assert.assertNotEquals(resultado, resultadoEsperado);
