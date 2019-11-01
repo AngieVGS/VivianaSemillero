@@ -6,13 +6,14 @@ import org.testng.annotations.Test;
 
 import com.hbt.semillero.entidades.EstadoEnum;
 
+
 public class AppTest {
 
 	public void shouldAnswerWithTrue() {
 
 	}
 
-	@Test
+	@Test(enabled=false)
 	public void primeraPU(){
 		Long resultadoEsperado = 150L;
 		Long sumandoUno = 100L;
@@ -31,7 +32,14 @@ public class AppTest {
 		return cadenaInvertida;
 	}
 
-	@Test
+	/**
+	 * 
+	 * Metodo encargado de  probar la cadena invertida Sesion dos
+	 * <b>Caso de Uso</b>
+	 * @author Viviana
+	 *
+	 */
+	@Test(enabled=false)
 	public void segundaPrueba(){
 		//---- test resultado correcto de invertir cadena ---
 		String resultadoEsperado = "aloH";
@@ -53,10 +61,6 @@ public class AppTest {
 		Assert.assertNotEquals(resultado, resultadoEsperado);
 	}
 
-	//TO-DO
-	/*Pendiente hacer un metodo que use el metodo ToString de la entidad COMIC
-	 * 
-	 */	
 
 	/**
 	 * 	
@@ -65,7 +69,8 @@ public class AppTest {
 	 * @author Viviana
 	 *
 	 */
-	@Test
+	
+	@Test(enabled=false)
 	public void pruebaEnumerado(){
 		//		Instanciar un enum de la clase EstadoEnum
 		EstadoEnum estado = EstadoEnum.ACTIVO;
@@ -87,8 +92,8 @@ public class AppTest {
 		EstadoEnum[] numEnums =  EstadoEnum.values();
 	}
 
-
-
-
-
+	//TODO
+    /**
+     * Pediente hacer un método que use el método ToString de la entidad COMIC
+     */
 }

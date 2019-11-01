@@ -16,7 +16,7 @@ import javax.persistence.Table;
 
 
 /**
- * <b>Descripción:<b> Clase que determina
+ * <b>Descripción:<b> Clase que determina la entidad Comic
  * <b>Caso de Uso:<b> 
  * @author Viviana
  * @version 

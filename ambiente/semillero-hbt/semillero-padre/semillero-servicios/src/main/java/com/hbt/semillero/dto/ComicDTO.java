@@ -36,7 +36,7 @@ public class ComicDTO implements Serializable{
 	 * Tematica del comic o revista grafica
 	 */
 	
-	private TematicaEnum tematicaEnum;
+	private String tematicaEnum;
 	/**
 	 * Coleccion del comic o revista grafica
 	 */
@@ -99,7 +99,7 @@ public class ComicDTO implements Serializable{
 	 * @param estado
 	 * @param cantidad
 	 */
-	public ComicDTO(String id, String nombre, String editorial, TematicaEnum tematica, String coleccion,
+	public ComicDTO(String id, String nombre, String editorial, String tematica, String coleccion,
 			Integer numeroDePaginas, BigDecimal precio, String autor, Boolean colores, LocalDate fechaVenta,
 			String estado, Long cantidad) {
 		super();
@@ -182,7 +182,7 @@ public class ComicDTO implements Serializable{
 	 * @return El tematica asociado a la clase
 	 */
 	
-	public TematicaEnum getTematicaEnum() {
+	public String getTematicaEnum() {
 		return tematicaEnum;
 	}
 
@@ -190,7 +190,7 @@ public class ComicDTO implements Serializable{
 	 * Metodo encargado de modificar el valor del atributo tematica
 	 * @param tematica El nuevo tematica a modificar.
 	 */
-	public void setTematica(TematicaEnum tematicaEnum) {
+	public void setTematica(String tematicaEnum) {
 		this.tematicaEnum = tematicaEnum;
 	}
 
