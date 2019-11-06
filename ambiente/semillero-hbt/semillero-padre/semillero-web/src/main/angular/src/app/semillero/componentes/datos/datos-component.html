@@ -1,0 +1,13 @@
+<h3>Angie Viviana Galindo Suarez</h3>
+<h5>Tunja</h5>
+<p>Ingreso Dinamico<br> {{nombreAutor}}, {{ciudad}}</p>
+<a href="https://github.com/AngieVGS/VivianaSemillero.git">Repositorio Semillero Viviana</a>
+<h3>LISTA</h3>
+<div *ngFor="let ejercicio of listaEjercicio">
+    <pre>{{ejercicio | json }}</pre>
+</div>
+<button type="button" class="btn btn-primary" (click)="deleteComic(2)">Borrar objeto de la posicion numero 3</button>
+<div *ngIf="mostrarMensaje">
+    <button type="button" class="btn btn-primary" (dblclick)="ocultarMensaje()">Al dar doble click se ocultara el mensaje</button>
+    Se ha eliminado el objecto 
+</div> 
