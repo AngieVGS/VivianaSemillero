@@ -22,7 +22,7 @@ public class ComicDTO implements Serializable{
 	/**
 	 * Identificador del comic o revista grafica
 	 */
-	private String id;
+	private Long id;
 
 	/**
 	 * Nombre o titulo del comic o revista grafica
@@ -99,7 +99,7 @@ public class ComicDTO implements Serializable{
 	 * @param estado
 	 * @param cantidad
 	 */
-	public ComicDTO(String id, String nombre, String editorial, String tematica, String coleccion,
+	public ComicDTO(Long id, String nombre, String editorial, String tematica, String coleccion,
 			Integer numeroDePaginas, BigDecimal precio, String autor, Boolean colores, LocalDate fechaVenta,
 			String estado, Long cantidad) {
 		super();
@@ -123,7 +123,7 @@ public class ComicDTO implements Serializable{
 	 * @param id -> identificador del Comic
 	 * @param nombre -> Nombre del comic
 	 */
-	public ComicDTO(String id, String nombre) {
+	public ComicDTO(Long id, String nombre) {
 		super();
 		this.id = id;
 		this.nombre = nombre;
@@ -133,7 +133,7 @@ public class ComicDTO implements Serializable{
 	 * Metodo encargado de retornar el valor del atributo id
 	 * @return El id asociado a la clase
 	 */
-	public String getId() {
+	public Long getId() {
 		return id;
 	}
 
@@ -141,7 +141,7 @@ public class ComicDTO implements Serializable{
 	 * Metodo encargado de modificar el valor del atributo id
 	 * @param id El nuevo id a modificar.
 	 */
-	public void setId(String id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

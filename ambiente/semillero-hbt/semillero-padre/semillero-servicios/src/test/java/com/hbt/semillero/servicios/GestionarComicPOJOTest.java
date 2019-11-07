@@ -32,7 +32,7 @@ public class GestionarComicPOJOTest {
 	public void crearComicDTOTest() {
 		GestionarComicPOJO gestionarComicPOJO = new GestionarComicPOJO();
 
-		ComicDTO comicDTO = gestionarComicPOJO.crearComicDTO("1", "Dragon Ball Yamcha", "Planeta C�mic", "AVENTURAS",
+		ComicDTO comicDTO = gestionarComicPOJO.crearComicDTO(1L, "Dragon Ball Yamcha", "Planeta C�mic", "AVENTURAS",
 				"Manga Shonen", 144, new BigDecimal(2100), "Dragon Garow Lee", Boolean.FALSE, LocalDate.now(), "ACTIVO",
 				20L);
 
@@ -45,7 +45,7 @@ public class GestionarComicPOJOTest {
 
 		comicDTO = new ComicDTO();
 
-		comicDTO.setId("2");
+		comicDTO.setId(2L);
 		comicDTO.setNombre("Captain America Corps 1-5 USA");
 		comicDTO.setEditorial("Panini Comics");
 		comicDTO.setTematica("FANTASTICO");
@@ -65,7 +65,7 @@ public class GestionarComicPOJOTest {
 
 		comicDTO = new ComicDTO();
 
-		comicDTO.setId("3");
+		comicDTO.setId(3L);
 		comicDTO.setNombre("The Spectacular Spider-Man v2 USA");
 		comicDTO.setEditorial("Panini Comics");
 		comicDTO.setTematica("FANTASTICO");
