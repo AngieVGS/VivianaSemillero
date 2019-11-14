@@ -5,6 +5,7 @@ package com.hbt.semillero.ejb;
 
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
@@ -53,16 +54,18 @@ public class GestionarComicBean {
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public void modificarComic(ComicDTO comicModificar) {
 		Comic comic = new Comic();
-		// comic.setId(comicModificar.getId());
+//		comic.setId(comicModificar.getId());
 		em.merge(comic);
 	}
 
 	@TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
-	public ComicDTO consultarComic(Long id) {
-		Comic comic = em.find(Comic.class, id);
-		ComicDTO comicDTO = convertirComicToComicDTO(comic);
-		return comicDTO;
-	}
+    public ComicDTO consultarComic(String idComic) {
+        Comic comic = null;
+        comic = new Comic();
+        comic = em.find(Comic.class, Long.parseLong(idComic));
+        ComicDTO comicDTO = convertirComicToComicDTO(comic);
+        return comicDTO;
+    }
 
 	@TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
 	public List<ComicDTO> consultarTodos() {
@@ -75,8 +78,8 @@ public class GestionarComicBean {
 	 * @see com.hbt.semillero.ejb.IGestionarComicLocal#modificarComic(java.lang.Long,
 	 *      java.lang.String, com.hbt.semillero.dto.ComicDTO)
 	 */
-	@Override
-	// @TransactionAttribute(TransactionAttributeType.REQUIRED)
+	
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public void modificarComic(Long id, String nombre, ComicDTO comicNuevo) {
 		Comic comicModificar;
 		if (comicNuevo == null) {
@@ -94,7 +97,6 @@ public class GestionarComicBean {
 	 * 
 	 * @see com.hbt.semillero.ejb.IGestionarComicLocal#eliminarComic(java.lang.Long)
 	 */
-	@Override
 	public void eliminarComic(Long id) {
 		Comic comic = em.find(Comic.class, id);
 		if (comic != null) {
@@ -106,7 +108,6 @@ public class GestionarComicBean {
 	/**
 	 * @see com.hbt.semillero.ejb.IGestionarComicLocal#consultarComics()
 	 */
-	@Override
 	@TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
 	public List<ComicDTO> consultarComics() {
 		return ((List<Comic>) em.createQuery("Select c from Comic c").getResultList()).stream()
@@ -116,16 +117,16 @@ public class GestionarComicBean {
 	private Comic comicDTOToComic(ComicDTO comicDTO) {
 		Comic comic = new Comic();
 		comic.setId(comicDTO.getId());
-		comic.setAutores(comicDTO.getAutores());
+		comic.setAutores(comicDTO.getAutor());
 		comic.setCantidad(comicDTO.getCantidad());
 		comic.setColeccion(comicDTO.getColeccion());
-		comic.setColor(comicDTO.getColor());
+		comic.setColor(comicDTO.getColores());
 		comic.setEditorial(comicDTO.getEditorial());
 		// comic.setEstadoEnum(comicDTO.getEstado());
 		comic.setFechaVenta(comicDTO.getFechaVenta());
 		comic.setNombre(comicDTO.getNombre());
-		comic.setNumeroPaginas(comicDTO.getNumeroPaginas());
-		comic.setPrecio(comicDTO.getPrice());
+		comic.setNumeroPaginas(comicDTO.getNumeroDePaginas());
+		comic.setPrecio(comicDTO.getPrecio());
 		// comic.setTematicaEnum(comicDTO.getTematica());
 
 		return comic;
@@ -140,10 +141,10 @@ public class GestionarComicBean {
 		comicDTO.setEditorial(comic.getEditorial());
 		// comicDTO.setTematicaEnum(comic.getTematicaEnum());
 		comicDTO.setColeccion(comic.getColeccion());
-		comicDTO.setNumeroPaginas(comic.getNumeroPaginas());
-		comicDTO.setPrice(comic.getPrecio());
-		comicDTO.setAutores(comic.getAutores());
-		comicDTO.setColor(comic.getColor());
+		comicDTO.setNumeroDePaginas(comic.getNumeroPaginas());
+		comicDTO.setPrecio(comic.getPrecio());
+		comicDTO.setAutor(comic.getAutores());
+		comicDTO.setColores(comic.getColor());
 		comicDTO.setFechaVenta(comic.getFechaVenta());
 		// comicDTO.setEstadoEnum(comic.getEstadoEnum());
 		comicDTO.setCantidad(comic.getCantidad());
