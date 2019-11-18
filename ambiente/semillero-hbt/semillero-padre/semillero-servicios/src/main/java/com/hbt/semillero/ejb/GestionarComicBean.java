@@ -3,151 +3,154 @@
  */
 package com.hbt.semillero.ejb;
 
-
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
+import javax.ejb.TransactionManagement;
+import javax.ejb.TransactionManagementType;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import com.hbt.semillero.dto.ComicDTO;
-import com.hbt.semillero.entidades.Comic;
+import com.hbt.semillero.entidad.Comic;
 
 /**
- * <b>Descripción:<b> Clase que determina
- * <b>Caso de Uso:<b> 
- * @author Viviana
- * @version 
+ * <b>Descripción:<b> Clase que determina el bean para realizar las gestion de
+ * los comics
+ * 
+ * @author ccastano
+ * @version
  */
-
 @Stateless
-public class GestionarComicBean {
+@TransactionManagement(TransactionManagementType.CONTAINER)
+public class GestionarComicBean implements IGestionarComicLocal {
 
+	/**
+	 * Atributo em que se usa para interacturar con el contexto de persistencia.
+	 */
 	@PersistenceContext
 	private EntityManager em;
 
-	// TODO
-	/*
-	 * Agregar interfaz
-	 */
 	/**
 	 * 
 	 * @see com.hbt.semillero.ejb.IGestionarComicLocal#crearComic(com.hbt.semillero.dto.ComicDTO)
 	 */
 	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-	public void crearComic(ComicDTO comicDTO) {
-
-		Comic comic = comicDTOToComic(comicDTO);
-
-		// TODO
-		/*
-		 * Llenar con los demás datos
-		 */
-
+	public void crearComic(ComicDTO comicNuevo) {
+		// Entidad nueva
+		Comic comic = convertirComicDTOToComic(comicNuevo);
+		// Se almacena la informacion y se maneja la enidad comic
 		em.persist(comic);
-
-	}
-
-	@TransactionAttribute(TransactionAttributeType.REQUIRED)
-	public void modificarComic(ComicDTO comicModificar) {
-		Comic comic = new Comic();
-//		comic.setId(comicModificar.getId());
-		em.merge(comic);
-	}
-
-	@TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
-    public ComicDTO consultarComic(String idComic) {
-        Comic comic = null;
-        comic = new Comic();
-        comic = em.find(Comic.class, Long.parseLong(idComic));
-        ComicDTO comicDTO = convertirComicToComicDTO(comic);
-        return comicDTO;
-    }
-
-	@TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
-	public List<ComicDTO> consultarTodos() {
-		em.createNativeQuery("SELECT c from Comic").getResultList();
-		List<Comic> resultados = (List<Comic>) em.createQuery("select c from Comic").getResultList();
-		return null;
 	}
 
 	/**
-	 * @see com.hbt.semillero.ejb.IGestionarComicLocal#modificarComic(java.lang.Long,
-	 *      java.lang.String, com.hbt.semillero.dto.ComicDTO)
+	 * 
+	 * @see com.hbt.semillero.ejb.IGestionarComicLocal#modificarComic(com.hbt.semillero.dto.ComicDTO)
 	 */
-	
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public void modificarComic(Long id, String nombre, ComicDTO comicNuevo) {
-		Comic comicModificar;
-		if (comicNuevo == null) {
+		Comic comicModificar ;
+		if(comicNuevo==null) {
+			// Entidad a modificar
 			comicModificar = em.find(Comic.class, id);
-		} else {
-			comicModificar = comicDTOToComic(comicNuevo);
+		}else {
+			comicModificar = convertirComicDTOToComic(comicNuevo);
 		}
-		// TODO Hacer validación para ver si llegó con datos
 		comicModificar.setNombre(nombre);
 		em.merge(comicModificar);
 	}
 
 	/**
-	 * Metodo que elimina el comic de la base de datos
 	 * 
 	 * @see com.hbt.semillero.ejb.IGestionarComicLocal#eliminarComic(java.lang.Long)
 	 */
-	public void eliminarComic(Long id) {
-		Comic comic = em.find(Comic.class, id);
-		if (comic != null) {
-			em.remove(comic);
-
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
+	public void eliminarComic(Long idComic) {
+		Comic comicEliminar = em.find(Comic.class, idComic);
+		if (comicEliminar != null) {
+			em.remove(comicEliminar);
 		}
 	}
 
 	/**
+	 * 
+	 * @see com.hbt.semillero.ejb.IGestionarComicLocal#consultarComic(java.lang.String)
+	 */
+	@TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
+	public ComicDTO consultarComic(String idComic) {
+		Comic comic = null;
+		comic = new Comic();
+		comic = em.find(Comic.class, Long.parseLong(idComic));
+		ComicDTO comicDTO = convertirComicToComicDTO(comic);
+		return comicDTO;
+	}
+
+	/**
+	 * 
 	 * @see com.hbt.semillero.ejb.IGestionarComicLocal#consultarComics()
 	 */
 	@TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
 	public List<ComicDTO> consultarComics() {
-		return ((List<Comic>) em.createQuery("Select c from Comic c").getResultList()).stream()
-				.map(comic -> convertirComicToComicDTO(comic)).collect(Collectors.toList());
+		List<ComicDTO> resultadosComicDTO = new ArrayList<ComicDTO>();
+		List<Comic> resultados = em.createQuery("select c from Comic c").getResultList();
+		for (Comic comic:resultados) {
+			resultadosComicDTO.add(convertirComicToComicDTO(comic));
+		}
+		return resultadosComicDTO;
 	}
 
-	private Comic comicDTOToComic(ComicDTO comicDTO) {
-		Comic comic = new Comic();
-		comic.setId(comicDTO.getId());
-		comic.setAutores(comicDTO.getAutor());
-		comic.setCantidad(comicDTO.getCantidad());
-		comic.setColeccion(comicDTO.getColeccion());
-		comic.setColor(comicDTO.getColores());
-		comic.setEditorial(comicDTO.getEditorial());
-		// comic.setEstadoEnum(comicDTO.getEstado());
-		comic.setFechaVenta(comicDTO.getFechaVenta());
-		comic.setNombre(comicDTO.getNombre());
-		comic.setNumeroPaginas(comicDTO.getNumeroDePaginas());
-		comic.setPrecio(comicDTO.getPrecio());
-		// comic.setTematicaEnum(comicDTO.getTematica());
-
-		return comic;
-	}
-
+	/**
+	 * 
+	 * Metodo encargado de transformar un comic a un comicDTO
+	 * 
+	 * @param comic
+	 * @return
+	 */
 	private ComicDTO convertirComicToComicDTO(Comic comic) {
 		ComicDTO comicDTO = new ComicDTO();
-		if (comic.getId() != null) {
-			comicDTO.setId(comic.getId());
+		if(comic.getId()!=null) {
+		 comicDTO.setId(comic.getId().toString());
 		}
 		comicDTO.setNombre(comic.getNombre());
 		comicDTO.setEditorial(comic.getEditorial());
-		// comicDTO.setTematicaEnum(comic.getTematicaEnum());
+		comicDTO.setTematicaEnum(comic.getTematicaEnum());
 		comicDTO.setColeccion(comic.getColeccion());
-		comicDTO.setNumeroDePaginas(comic.getNumeroPaginas());
+		comicDTO.setNumeroPaginas(comic.getNumeroPaginas());
 		comicDTO.setPrecio(comic.getPrecio());
-		comicDTO.setAutor(comic.getAutores());
-		comicDTO.setColores(comic.getColor());
+		comicDTO.setAutores(comic.getAutores());
+		comicDTO.setColor(comic.getColor());
 		comicDTO.setFechaVenta(comic.getFechaVenta());
-		// comicDTO.setEstadoEnum(comic.getEstadoEnum());
+		comicDTO.setEstadoEnum(comic.getEstadoEnum());
 		comicDTO.setCantidad(comic.getCantidad());
 		return comicDTO;
+	}
+
+	/**
+	 * 
+	 * Metodo encargado de transformar un comicDTO a un comic
+	 * 
+	 * @param comic
+	 * @return
+	 */
+	private Comic convertirComicDTOToComic(ComicDTO comicDTO) {
+		Comic comic = new Comic();
+		if(comicDTO.getId()!=null) {
+			comic.setId(Long.parseLong(comicDTO.getId()));
+		}
+		comic.setNombre(comicDTO.getNombre());
+		comic.setEditorial(comicDTO.getEditorial());
+		comic.setTematicaEnum(comicDTO.getTematicaEnum());
+		comic.setColeccion(comicDTO.getColeccion());
+		comic.setNumeroPaginas(comicDTO.getNumeroPaginas());
+		comic.setPrecio(comicDTO.getPrecio());
+		comic.setAutores(comicDTO.getAutores());
+		comic.setColor(comicDTO.getColor());
+		comic.setFechaVenta(comicDTO.getFechaVenta());
+		comic.setEstadoEnum(comicDTO.getEstadoEnum());
+		comic.setCantidad(comicDTO.getCantidad());
+		return comic;
 	}
 }

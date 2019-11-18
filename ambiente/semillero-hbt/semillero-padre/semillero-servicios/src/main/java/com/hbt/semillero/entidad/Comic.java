@@ -1,7 +1,7 @@
 /**
  * Comic.java
  */
-package com.hbt.semillero.entidades;
+package com.hbt.semillero.entidad;
 
 import java.io.Serializable;
 import java.math.BigDecimal;

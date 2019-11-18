@@ -1,29 +1,38 @@
 package com.hbt.semillero.servicios;
 
-
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import com.hbt.semillero.entidades.EstadoEnum;
 
-
+/**
+ * Test unitario del semillero HBT
+ * 
+ * @author ccastano
+ *
+ */
 public class AppTest {
 
-	public void shouldAnswerWithTrue() {
-
-	}
-
-	@Test(enabled=false)
-	public void primeraPU(){
-		Long resultadoEsperado = 150L;
-		Long sumandoUno = 100L;
-		Long sumandoDos = 50L;
-		Long resultado = sumandoUno+sumandoDos;
+	/**
+	 * Metodo que permite validar si dada la suma de dos numero el resultado es el
+	 * correcto
+	 */
+	@Test
+	public void primeraPU() {
+		Long resultadoEsperado = 2159L;
+		Long sumando1 = 1500L;
+		Long sumando2 = 659L;
+		Long resultado = sumando1 + sumando2;
 		Assert.assertEquals(resultado, resultadoEsperado);
-		resultadoEsperado = 200L;
-		Assert.assertNotEquals(resultado, resultadoEsperado);
 	}
 
+	/**
+	 * 
+	 * Metodo encargado de dada una cadena invertir su posicion y retornarla al
+	 * revez
+	 * 
+	 * @param cadena
+	 * @return
+	 */
 	private String invertirCadena(String cadena) {
 		String cadenaInvertida = "";
 		for (int x = cadena.length() - 1; x >= 0; x--) {
@@ -31,69 +40,22 @@ public class AppTest {
 		}
 		return cadenaInvertida;
 	}
-
+	
 	/**
 	 * 
-	 * Metodo encargado de  probar la cadena invertida Sesion dos
+	 * Metodo encargado de validar que se invierte la cadena correctamente
+	 * Se pone en mayusculas las cadenas
+	 * Se quitan espacio al inicio y al fin de la cadena
+	 * Se reemplazan espacios para que la validacion se pueda comprobar 
 	 * <b>Caso de Uso</b>
-	 * @author Viviana
 	 *
 	 */
-	@Test(enabled=false)
-	public void segundaPrueba(){
-		//---- test resultado correcto de invertir cadena ---
-		String resultadoEsperado = "aloH";
-		String resultado = invertirCadena("Hola");
-		Assert.assertEquals(resultado, resultadoEsperado);
-		resultadoEsperado = "anitalavalatina";
-		resultado = invertirCadena("anitalavalatina");
-		Assert.assertEquals(resultado, resultadoEsperado);
-		//---- test resultado incorrecto de invertir cadena ---
-		resultadoEsperado = "alHo";
-		Assert.assertNotEquals(resultado, resultadoEsperado);
-		//---- test resultado correcto de invertir cadena vacia ---
-		resultado  = invertirCadena("");
-		resultadoEsperado = "";
-		Assert.assertEquals(resultado, resultadoEsperado);
-		//---- test resultado incorrecto de invertir cadena vacia ---
-		resultado  = invertirCadena("");
-		resultadoEsperado =  " ";
-		Assert.assertNotEquals(resultado, resultadoEsperado);
+	@Test
+	public void invertirCadenaTest() {
+		String resultado = invertirCadena("Yo soy");
+		String actual =resultado.toUpperCase().trim();
+		String esperado = "Yo soy".toUpperCase().trim();
+		Assert.assertEquals(actual.replace(" ",""), esperado.replace(" ",""));
 	}
-
-
-	/**
-	 * 	
-	 * Metodo encargado de testear el enumerado
-	 * <b>Caso de Uso</b>
-	 * @author Viviana
-	 *
-	 */
 	
-	@Test(enabled=false)
-	public void pruebaEnumerado(){
-		//		Instanciar un enum de la clase EstadoEnum
-		EstadoEnum estado = EstadoEnum.ACTIVO;
-		//		Devolver un String con el nombre de la constante (ACTIVO)
-		estado.name();		
-		//		Devolver un entero con la posición del enum según está declarada
-		estado.ordinal();
-		//		Comparar el enum con el parámetro según el orden en el que están declarados lo enum
-		//con Activo
-		Integer activo = 0;
-		Integer resultado = estado.ordinal();
-		Assert.assertEquals(activo,resultado);
-		//con Inactivo
-		Integer inactivo = 1;
-		estado = EstadoEnum.INACTIVO;
-		resultado = estado.ordinal();
-		Assert.assertEquals(inactivo, resultado);
-		//		Devolver un array que contiene todos los enum
-		EstadoEnum[] numEnums =  EstadoEnum.values();
-	}
-
-	//TODO
-    /**
-     * Pediente hacer un método que use el método ToString de la entidad COMIC
-     */
 }

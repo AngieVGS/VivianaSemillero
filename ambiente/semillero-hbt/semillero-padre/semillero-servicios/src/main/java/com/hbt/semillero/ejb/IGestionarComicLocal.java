@@ -1,6 +1,3 @@
-/**
- * IGestionarComicLocal.java
- */
 package com.hbt.semillero.ejb;
 
 import java.util.List;
@@ -59,7 +56,7 @@ public interface IGestionarComicLocal {
 	 * @return comic Resultado de la consulta
 	 * @throws Exception si no se recibe idComic
 	 */
-	public ComicDTO consultarComic(Long idComic);
+	public ComicDTO consultarComic(String idComic);
 
 	/**
 	 * 
