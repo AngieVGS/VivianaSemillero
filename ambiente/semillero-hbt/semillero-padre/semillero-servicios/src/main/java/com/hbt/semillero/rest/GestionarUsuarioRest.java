@@ -14,9 +14,11 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
-import com.hbt.semillero.dto.ComicDTO;
+import com.hbt.semillero.dto.PersonaDTO;
 import com.hbt.semillero.dto.ResultadoDTO;
+
 import com.hbt.semillero.dto.UsuarioDTO;
+import com.hbt.semillero.ejb.IGestionarPersonaLocal;
 import com.hbt.semillero.ejb.IGestionarUsuarioLocal;
 
 
@@ -31,7 +33,7 @@ import com.hbt.semillero.ejb.IGestionarUsuarioLocal;
 public class GestionarUsuarioRest {
 
 	/**
-	 * Atriburo que permite gestionar un comic
+	 * Atriburo que permite gestionar un Usuario
 	 */
 	@EJB
 	private IGestionarUsuarioLocal gestionarUsuarioEJB;
@@ -40,13 +42,13 @@ public class GestionarUsuarioRest {
 	/**
 	 * 
 	 * Metodo encargado de traer la lista de usuarios
-	 * http://localhost:8085/semillero-servicios/rest/GestionarComic/consultarComics
+	 * http://localhost:8085/semillero-servicios/rest/GestionarUsuario/consultarUsuarios
 	 * 
-	 * @param idComic
+	 * @param idUsuario
 	 * @return
 	 */
 	@GET
-	@Path("/consultarUsuario")
+	@Path("/consultarUsuarios")
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<UsuarioDTO> consultaUsuarios() {
 		return gestionarUsuarioEJB.consultarUsuarios();
@@ -55,8 +57,8 @@ public class GestionarUsuarioRest {
 	
 	/**
 	 * 
-	 * Metodo encargado de traer la informacion de un comic determiando
-	 * http://localhost:8085/semillero-servicios/rest/GestionarComic/consultarComic?idComic=1
+	 * Metodo encargado de traer la informacion de un Usuario determiando
+	 * http://localhost:8085/semillero-servicios/rest/GestionarUsuario/consultarUsuario?idUsuario=1
 	 * 
 	 * @param uid
 	 * @return
@@ -64,7 +66,7 @@ public class GestionarUsuarioRest {
 	@GET
 	@Path("/consultarUsuario")
 	@Produces(MediaType.APPLICATION_JSON)
-	public UsuarioDTO consultarComic(@QueryParam("uid") Long uid) {
+	public UsuarioDTO consultarUsuario(@QueryParam("uid") Long uid) {
 		if (uid != null) {
 			UsuarioDTO usuarioDTO = gestionarUsuarioEJB.consultarUsuario(uid.toString());
 			return usuarioDTO;
@@ -74,7 +76,7 @@ public class GestionarUsuarioRest {
 	
 	/**
 	 * Crea las Usuario 
-	 * http://localhost:8085/semillero-servicios/rest/GestionarComic/crear
+	 * http://localhost:8085/semillero-servicios/rest/GestionarUsuario/crear
 	 * @param persona
 	 * @return
 	 */
@@ -82,24 +84,28 @@ public class GestionarUsuarioRest {
 	@Path("/crear")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public ResultadoDTO crearUsuario(UsuarioDTO usuarioDTO) {
-		gestionarUsuarioEJB.crearUsuario(usuarioDTO);
-		ResultadoDTO resultadoDTO = new ResultadoDTO(Boolean.TRUE, "Usuario creado exitosamente");
-		return resultadoDTO;
+	public ResultadoDTO crearUsuario(UsuarioDTO usuarioDTO, PersonaDTO personaDTO) {
+		try {
+			usuarioDTO.setPersona(Long.parseLong(personaDTO.getPid()));
+			gestionarUsuarioEJB.crearUsuario(usuarioDTO);
+			return new ResultadoDTO(Boolean.TRUE, "El Usuario se han creado exitosamente");
+		} catch (Exception e) {
+			return new ResultadoDTO(Boolean.FALSE, "Fecha de creacion debe ser igual o anterios a la fecha actual");
+		}
 		
 	}
 
 	/**
 	 * 
 	 * Metodo encargado de modificar el nombre de un usuario
-	 * http://localhost:8085/semillero-servicios/rest/GestionarComic/modificar?idComic=1&nombre=nuevonombre
+	 * http://localhost:8085/semillero-servicios/rest/GestionarUsuario/modificar?idUsuario=1&nombre=nuevonombre
 	 * @param 
 	 * @param 
 	 */
 	@POST
 	@Path("/modificar")
 	@Produces(MediaType.APPLICATION_JSON)
-	public void modificarComic(@QueryParam("uid") Long uid, @QueryParam("nombre") String nombre) {
+	public void modificarUsuario(@QueryParam("uid") Long uid, @QueryParam("nombre") String nombre) {
 		try {
 			gestionarUsuarioEJB.modificarUsuario(uid, nombre);
 		} catch (Exception e) {
@@ -116,11 +122,11 @@ public class GestionarUsuarioRest {
 	 * @param uid identificador del usuario
 	 */
 	@POST
-	@Path("/cambiarEstado")
+	@Path("/eliminar")
 	@Produces(MediaType.APPLICATION_JSON)
-	public void eliminarComic(@QueryParam("uid") Long uid) {
+	public void eliminarUsuario(@QueryParam("uid") Long uid) {
 		if (uid != null) {
-			gestionarUsuarioEJB.cambiarEstadoUsuario(uid);
+			gestionarUsuarioEJB.eliminarUsuario(uid);
 		}
 	}
 	

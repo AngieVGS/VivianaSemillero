@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 /**
  * @description Componente menu, el cual contiene la logica para direccionar a los modulos
  * desarrollados
- * 
+ *
  * @author Diego Fernando Alvarez Silva <dalvarez@heinsohn.com.co>
  */
 @Component({
@@ -44,7 +44,11 @@ export class MenuComponent implements OnInit {
     this.router.navigate(['bienvenida']);
   }
 
-  public navegarGestionarCompra(): void {
-    //WIP
+  /**
+   * @description Metodo encargado de direccionar al componente de gestionar usuarios
+   * @autor Angie Viviana Galindo Suarez <ingangievgs@gmail.com>
+   */
+  public navegarGestionarUsuarios(): void {
+    this.router.navigate(['gestionar-usuario']);
   }
 }

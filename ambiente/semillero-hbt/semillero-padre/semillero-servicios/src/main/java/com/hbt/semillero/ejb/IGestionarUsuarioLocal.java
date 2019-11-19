@@ -66,6 +66,36 @@ public interface IGestionarUsuarioLocal {
 	 * @return lista de usuarios
 	 */
 	public List<UsuarioDTO> consultarUsuarios();
+	
+	/**
+	 * 
+	 * Metodo encargado de cambiar el estado de un usuario ya que no se eliminar
+	 * <b>Caso de Uso</b>
+	 * @author Viviana
+	 *
+	 */
+	public void eliminarUsuario(Long uid);
+	
+	/**
+	 * 
+	 * Metodo encargado de activar un usuario 
+	 * <b>Caso de Uso</b>
+	 * @author Viviana
+	 *
+	 */
+	public void activarUsuario(Long uid);
+	
+	/**
+	 * 
+	 * Metodo encargado de verificar si el usuario,
+	 *  se creo hace menos de un año
+	 *  con el fin de desactivarlo en caso de no ser asi 
+	 * <b>Caso de Uso</b>
+	 * @author Viviana
+	 * 
+	 * @param uid
+	 */
+	public boolean validarEstadoDelUsuario(Long uid);
 
 
 }

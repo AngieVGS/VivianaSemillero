@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 
 /**
  * @description Componenete gestionar comic, el cual contiene la logica CRUD
- * 
+ *
  * @author Diego Fernando Alvarez Silva <dalvarez@heinsohn.com.co>
  */
 @Component({
@@ -85,10 +85,10 @@ export class GestionarComicComponent implements OnInit {
         this.comic.precio = this.gestionarComicForm.controls.precio.value;
         this.comic.autores = this.gestionarComicForm.controls.autores.value;
         this.comic.color = this.gestionarComicForm.controls.color.value;
-        
+
         this.listaComics.push(this.comic);
         this.limpiarFormulario();
-        
+
     }
 
     /**
@@ -137,7 +137,7 @@ export class GestionarComicComponent implements OnInit {
      * @description Metodo que obtiene los controles y sus propiedades
      * @author Diego Fernando Alvarez Silva
      */
-    get f() { 
+    get f() {
         return this.gestionarComicForm.controls;
     }
 }

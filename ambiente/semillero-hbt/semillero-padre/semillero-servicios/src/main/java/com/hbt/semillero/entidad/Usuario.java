@@ -8,9 +8,13 @@ import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -31,15 +35,12 @@ public class Usuario implements Serializable{
 	 * array de bytes.
 	 */
 	private static final long serialVersionUID = 1L;
-	private static final String ABC = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-	private static final String abc = "abcdefghijklmnopqrstuvwxyz";
-	private static String nameAUTO = "A0a" ;
 	
 	private Long uid;
 	private String nombreDeUsuario;
 	private LocalDate fechaDeCreacion;
 	private EstadoEnum estado;
-	private Long idpersona;
+	private Persona persona;
 
 	/**
 	 * Constructor de la clase.
@@ -105,6 +106,7 @@ public class Usuario implements Serializable{
 	 * @return El estado asociado a la clase
 	 */
 	@Column(name ="SUESTADO")
+	@Enumerated(value = EnumType.STRING)
 	public EstadoEnum getEstado() {
 		return estado;
 	}
@@ -121,17 +123,18 @@ public class Usuario implements Serializable{
 	 * Metodo encargado de retornar el valor del atributo persona
 	 * @return El persona asociado a la clase
 	 */
-	@Column(name = "SUIDPERSONA")
-	public long getPersona() {
-		return idpersona;
+	@OneToOne
+	@JoinColumn(name="SUIDPERSONA")
+	public Persona getPersona() {
+		return persona;
 	}
 
 	/**
 	 * Metodo encargado de modificar el valor del atributo persona
 	 * @param persona El nuevo persona a modificar.
 	 */
-	public void setPersona(Long idpersona) {
-		this.idpersona = idpersona;
+	public void setPersona(Persona persona) {
+		this.persona = persona;
 	}
 
 	/** 
@@ -140,26 +143,25 @@ public class Usuario implements Serializable{
 	@Override
 	public String toString() {
 		return "Usuario [uid=" + uid + ", nombreDeUsuario=" + nombreDeUsuario + ", fechaDeCreacion=" + fechaDeCreacion
-				+ ", estado=" + estado + ", idpersona=" + idpersona + "]";
+				+ ", estado=" + estado + ", idpersona=" + persona + "]";
 	}
 
 	/** 
-	 * @see java.lang.Object#hashCode() Este método viene a complementar al método
+	 * @see java.lang.Object#hashCode()ste método viene a complementar al método
 	 *      equals y sirve para comparar objetos de una forma más rápida en
 	 *      estructuras Hash ya que únicamente nos devuelve un número entero. Cuando
 	 *      Java compara dos objetos en estructuras de tipo hash (HashMap, HashSet
 	 *      etc) primero invoca al método hashcode y luego el equals
 	 */
-	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((estado == null) ? 0 : estado.hashCode());
 		result = prime * result + ((fechaDeCreacion == null) ? 0 : fechaDeCreacion.hashCode());
-		result = prime * result + (int) (idpersona ^ (idpersona >>> 32));
 		result = prime * result + ((nombreDeUsuario == null) ? 0 : nombreDeUsuario.hashCode());
-		result = prime * result + (int) (uid ^ (uid >>> 32));
+		result = prime * result + ((persona == null) ? 0 : persona.hashCode());
+		result = prime * result + ((uid == null) ? 0 : uid.hashCode());
 		return result;
 	}
 
@@ -182,29 +184,22 @@ public class Usuario implements Serializable{
 				return false;
 		} else if (!fechaDeCreacion.equals(other.fechaDeCreacion))
 			return false;
-		if (idpersona != other.idpersona)
-			return false;
 		if (nombreDeUsuario == null) {
 			if (other.nombreDeUsuario != null)
 				return false;
 		} else if (!nombreDeUsuario.equals(other.nombreDeUsuario))
 			return false;
-		if (uid != other.uid)
+		if (persona == null) {
+			if (other.persona != null)
+				return false;
+		} else if (!persona.equals(other.persona))
+			return false;
+		if (uid == null) {
+			if (other.uid != null)
+				return false;
+		} else if (!uid.equals(other.uid))
 			return false;
 		return true;
 	}
 
-//	Generar nombre de usuario
-//	private String generarNombreDeUsuario(){
-//		Character uno = nameAUTO.charAt(0);
-//		Character dos = nameAUTO.charAt(1);
-//		String name = new String();
-//		for (int i = 0; i < nameAUTO.length(); i++) {
-//			if (nameAUTO.charAt(nameAUTO.length()-1) == 'z') {
-//				
-//			}
-//		}
-//
-//	}
-//	
 }

@@ -65,7 +65,7 @@ public class GestionarPersonaBean implements IGestionarPersonaLocal {
 	@TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
 	public List<PersonaDTO> consultarPersonas() {
 		List<PersonaDTO> resultadosPersonaDTO = new ArrayList<PersonaDTO>();
-		List<Persona> resultado = em.createQuery("SELECT p FROM TC_PERSONA").getResultList();
+		List<Persona> resultado = em.createQuery("select p from tc_persona p").getResultList();
 		for (Persona persona:resultado) {
 			resultadosPersonaDTO.add(convertirPersonaToPersonaDTO(persona));
 		}
